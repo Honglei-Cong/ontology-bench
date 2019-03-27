@@ -14,22 +14,20 @@ import (
 	"github.com/ontspace/ontology-bench/sharding-bench/src/config"
 )
 
-type ShardPeerJoinParam struct {
-	Path        string `json:"path"`
-	ShardID     uint64 `json:"shard_id"`
-	IpAddress   string `json:"ip_address"`
-	PeerPubKey  string `json:"peer_pub_key"`
-	StakeAmount uint64 `json:"stake_amount"`
+type ShardPeerApproveParam struct {
+	Path       string `json:"path"`
+	ShardID    uint64 `json:"shard_id"`
+	PeerPubKey string `json:"peer_pub_key"`
 }
 
-func ShardPeerJoin(sdk *sdk.OntologySdk, cfg *config.Config, configFile string) error {
+func ShardPeerApprove(sdk *sdk.OntologySdk, cfg *config.Config, configFile string) error {
 
 	data, err := ioutil.ReadFile(configFile)
 	if err != nil {
 		return fmt.Errorf("read config from %s: %s", configFile, err)
 	}
 
-	param := &ShardPeerJoinParam{}
+	param := &ShardPeerApproveParam{}
 	if err := json.Unmarshal(data, param); err != nil {
 		return fmt.Errorf("unmarshal shard peer join param: %s", err)
 	}
@@ -40,12 +38,9 @@ func ShardPeerJoin(sdk *sdk.OntologySdk, cfg *config.Config, configFile string) 
 	}
 
 	tShardId, _ := types.NewShardID(param.ShardID)
-	joinParam := &shardmgmt.JoinShardParam{
-		ShardID:     tShardId,
-		PeerOwner:   user.Address,
-		IpAddress:   param.IpAddress,
-		PeerPubKey:  param.PeerPubKey,
-		StakeAmount: param.StakeAmount,
+	joinParam := &shardmgmt.ApproveJoinShardParam{
+		ShardId:    tShardId,
+		PeerPubKey: []string{param.PeerPubKey},
 	}
 
 	buf := new(bytes.Buffer)

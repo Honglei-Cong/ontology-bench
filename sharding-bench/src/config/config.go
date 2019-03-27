@@ -7,17 +7,17 @@ import (
 )
 
 type Config struct {
-	Password          string
+	Password            string
 	ConsensusWalletPath string
-	GasPrice          uint64
-	GasLimit          uint64
-	ShardPerNode      int
-	RootServer        string
-	Rpc               []string
-	TxNum             int // whole tx num is *TxFactor
-	TPS               int
-	StartNonce        uint32
-	SendTx            bool
+	GasPrice            uint64
+	GasLimit            uint64
+	ShardPerNode        int
+	RootServer          string
+	Rpc                 []string
+	TxNum               int // whole tx num is *TxFactor
+	TPS                 int
+	StartNonce          uint32
+	SendTx              bool
 }
 
 func ParseConfig(path string) (*Config, error) {

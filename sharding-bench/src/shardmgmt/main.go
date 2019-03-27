@@ -13,6 +13,8 @@ const (
 	SHARD_INIT     = "init"
 	SHARD_CREATE   = "create"
 	SHARD_CONFIG   = "config"
+	SHARD_PEERAPPLY = "peerjoin"
+	SHARD_PEERAPPROVE = "peerjoin"
 	SHARD_PEERJOIN = "peerjoin"
 	SHARD_ACTIVATE = "activate"
 )
@@ -53,6 +55,14 @@ func main() {
 	} else if cmd == SHARD_CONFIG {
 		if err := ShardConfig(sdk, cfg, paramFile); err != nil {
 			log.Errorf("shard config err: %s", err)
+		}
+	} else if cmd == SHARD_PEERAPPLY {
+		if err := ShardPeerApply(sdk, cfg, paramFile); err != nil {
+			log.Errorf("shard peer join err: %s", err)
+		}
+	} else if cmd == SHARD_PEERAPPROVE {
+		if err := ShardPeerApprove(sdk, cfg, paramFile); err != nil {
+			log.Errorf("shard peer join err: %s", err)
 		}
 	} else if cmd == SHARD_PEERJOIN {
 		if err := ShardPeerJoin(sdk, cfg, paramFile); err != nil {
