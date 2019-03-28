@@ -19,6 +19,8 @@ type ShardConfigParam struct {
 	Path        string              `json:"path"`
 	ShardID     uint64              `json:"shard_id"`
 	NetworkSize uint32              `json:"network_size"`
+	GasPrice    uint64              `json:"gas_price"`
+	GasLimit    uint64              `json:"gas_limit"`
 	VbftConfig  *config2.VBFTConfig `json:"vbft"`
 }
 
@@ -44,6 +46,8 @@ func ShardConfig(sdk *sdk.OntologySdk, cfg *config.Config, configFile string) er
 		NetworkMin:        param.NetworkSize,
 		StakeAssetAddress: utils.OntContractAddress,
 		GasAssetAddress:   utils.OngContractAddress,
+		GasPrice:          param.GasPrice,
+		GasLimit:          param.GasLimit,
 		VbftConfigData:    param.VbftConfig,
 	}
 
