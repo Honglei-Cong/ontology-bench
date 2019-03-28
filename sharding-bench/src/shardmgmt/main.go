@@ -13,8 +13,8 @@ const (
 	SHARD_INIT     = "init"
 	SHARD_CREATE   = "create"
 	SHARD_CONFIG   = "config"
-	SHARD_PEERAPPLY = "peerjoin"
-	SHARD_PEERAPPROVE = "peerjoin"
+	SHARD_PEERAPPLY = "peerapply"
+	SHARD_PEERAPPROVE = "peerapprove"
 	SHARD_PEERJOIN = "peerjoin"
 	SHARD_ACTIVATE = "activate"
 )

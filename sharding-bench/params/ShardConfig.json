@@ -2,6 +2,8 @@
    "path": "wallets/wallet1.dat",
    "shard_id": 1,
    "network_size": 1,
+   "gas_price": 0,
+   "gas_limit": 500000,
    "vbft":{
    "n": 7,
    "c": 2,
