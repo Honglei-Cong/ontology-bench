@@ -1,10 +1,10 @@
 {
   "SeedList": [
-                  "40.73.24.36:20338"
+                  "10.1.4.9:20338"
   ],
   "ConsensusType":"solo",
   "solo":{
-          "gen_block_time": 3,
-          "bookkeepers": ["02151ae0c8226b00efb6dccfe3f052f6c4134c5dd53e8aa4e986cf36ab8e317b4b"]
+          "gen_block_time": 2,
+          "bookkeepers": ["03a4be4e7e50afc0b824993d0c89ce762b57223749f39d826d8b0f1535910a0f0d"]
   }
 }
