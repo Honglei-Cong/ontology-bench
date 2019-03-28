@@ -48,7 +48,7 @@ func ShardPeerApprove(sdk *sdk.OntologySdk, cfg *config.Config, configFile strin
 		return fmt.Errorf("failed to ser join shard param: %s", err)
 	}
 
-	method := shardmgmt.JOIN_SHARD_NAME
+	method := shardmgmt.APPROVE_JOIN_SHARD_NAME
 	contractAddress := utils.ShardMgmtContractAddress
 	txHash, err := sdk.Native.InvokeNativeContract(cfg.GasPrice, cfg.GasLimit, user, 0,
 		contractAddress, method, []interface{}{buf.Bytes()})
