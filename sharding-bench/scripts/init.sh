@@ -9,7 +9,7 @@ ssh  $rootServer 'sudo pkill -9 ontology'
 ssh  $rootServer 'sudo rm -rf /mnt/shard && sudo mkdir /mnt/shard && sudo chown ubuntu:ubuntu /mnt/shard && ls -l /mnt/'
 scp ../bin/ontology ../configs/solo-config.json ../configs/start-root.sh ../configs/clean.sh ../wallets/wallet0.dat ubuntu@$rootServer:/mnt/shard
 scp ../wallets/wallet0.dat ubuntu@$rootServer:/mnt/shard/wallet.dat
-
+scp -r ../Chain ubuntu@$rootServer:/mnt/shard/
 
 
 counter=1
@@ -22,6 +22,7 @@ ssh  $s 'sudo pkill -9 ontology'
 ssh  $s 'sudo rm -rf /mnt/shard && sudo mkdir /mnt/shard && sudo chown ubuntu:ubuntu /mnt/shard && ls -l /mnt/'
 scp ../bin/ontology ../configs/solo-config.json ../configs/start.sh ../configs/clean.sh ../wallets/wallet$counter.dat ubuntu@$s:/mnt/shard
 scp ../wallets/wallet$counter.dat ubuntu@$s:/mnt/shard/wallet.dat
+scp -r ../Chain ubuntu@$s:/mnt/shard/
 ((counter++))
 done
 
