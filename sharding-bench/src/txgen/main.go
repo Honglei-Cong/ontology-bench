@@ -10,6 +10,7 @@ import (
 	"github.com/ontio/ontology-go-sdk/client"
 	"github.com/ontio/ontology/common/log"
 	"github.com/ontio/ontology/core/types"
+	"github.com/ontio/ontology/smartcontract/service/native/shardhotel"
 	"github.com/ontio/ontology/smartcontract/service/native/shardping"
 	"github.com/ontio/ontology/smartcontract/service/native/utils"
 	"github.com/ontspace/ontology-bench/sharding-bench/src/config"
@@ -45,11 +46,19 @@ func main() {
 }
 
 func shardTxTest(cfg *config.Config, account *sdk.Account) {
+	if len(cfg.Rpc) == 0 {
+		return
+	}
+	shardPerNode := 1
+	for _, shards := range cfg.Rpc {
+		shardPerNode = len(shards)
+		break
+	}
 	exitChan := make(chan int)
-	routineNum := len(cfg.Rpc) * cfg.ShardPerNode
+	routineNum := len(cfg.Rpc) * shardPerNode
 	startTime := time.Now()
-	for i, server := range cfg.Rpc {
-		for j := 0; j < cfg.ShardPerNode; j++ {
+	for server, shards := range cfg.Rpc {
+		for _, id := range shards {
 			go func(ipaddr string, shardId uint64, nTxs int) {
 				sendTxSdk := sdk.NewOntologySdk()
 				rpcClient := client.NewRpcClient()
@@ -60,7 +69,7 @@ func shardTxTest(cfg *config.Config, account *sdk.Account) {
 				for k := 0; k < nTxs; k++ {
 					startTime := time.Now()
 					txPayload := fmt.Sprintf("%d", k)
-					if err := sendShardPing(sendTxSdk, cfg, account, shardId, 0, txPayload); err != nil {
+					if err := sendPing(sendTxSdk, cfg, account, shardId, txPayload); err != nil {
 						log.Errorf("send ping to %s, shard %d failed: %s", ipaddr, shardId, err)
 						return
 					}
@@ -69,14 +78,37 @@ func shardTxTest(cfg *config.Config, account *sdk.Account) {
 					}
 				}
 				exitChan <- 1
-			}(server, uint64(i*cfg.ShardPerNode+j+1), cfg.TxNum)
+			}(server, uint64(id), cfg.TxNum)
 		}
 	}
 	for i := 0; i < routineNum; i++ {
 		<-exitChan
 	}
-	tps := routineNum * cfg.TxNum * 1000000 / int(time.Since(startTime).Nanoseconds() / int64(time.Millisecond))
+	tps := routineNum * cfg.TxNum * 1000000 / int(time.Since(startTime).Nanoseconds()/int64(time.Millisecond))
 	log.Errorf("tps: %d.%d", tps/1000, tps%1000)
+}
+
+func sendPing(sdk *sdk.OntologySdk, cfg *config.Config, user *sdk.Account, shardID uint64, txt string) error {
+	tShardId, _ := types.NewShardID(shardID)
+	param := shardping.ShardPingParam{
+		FromShard: tShardId,
+		ToShard:   tShardId,
+		Param:     txt,
+	}
+	buf := new(bytes.Buffer)
+	if err := param.Serialize(buf); err != nil {
+		return fmt.Errorf("failed to ser shard deposit gas param: %s", err)
+	}
+
+	method := shardping.SEND_SHARD_PING_NAME
+	contractAddress := utils.ShardPingAddress
+	txParam := []interface{}{buf.Bytes()}
+
+	_, err := sdk.Native.InvokeShardNativeContract(shardID, cfg.GasPrice, cfg.GasLimit, user, 0, contractAddress, method, txParam)
+	if err != nil {
+		return fmt.Errorf("invokeNativeContract error : %s", err)
+	}
+	return nil
 }
 
 func sendShardPing(sdk *sdk.OntologySdk, cfg *config.Config, user *sdk.Account, fromShardID, toShardID uint64, txt string) error {
@@ -96,10 +128,37 @@ func sendShardPing(sdk *sdk.OntologySdk, cfg *config.Config, user *sdk.Account, 
 	contractAddress := utils.ShardPingAddress
 	txParam := []interface{}{buf.Bytes()}
 
-	txHash, err := sdk.Native.InvokeShardNativeContract(fromShardID, cfg.GasPrice, cfg.GasLimit, user, 0, contractAddress, method, txParam)
+	_, err := sdk.Native.InvokeShardNativeContract(fromShardID, cfg.GasPrice, cfg.GasLimit, user, 0, contractAddress, method, txParam)
 	if err != nil {
-		return fmt.Errorf("invokeNativeContract error :", err)
+		return fmt.Errorf("invokeNativeContract error : %s", err)
 	}
-	log.Infof("shard send shard %d ping txHash is :%s", fromShardID, txHash.ToHexString())
+	return nil
+}
+
+func sendShardReserve(sdk *sdk.OntologySdk, cfg *config.Config, user *sdk.Account, fromShardID, toShardID uint64, roomNo int) error {
+	shardId2, err := types.NewShardID(toShardID)
+	if err != nil {
+		return err
+	}
+	param := shardhotel.ShardHotelReserve2Param{
+		User:             user.Address,
+		RoomNo1:          roomNo,
+		Shard2:           shardId2,
+		ContractAddress2: utils.ShardHotelAddress,
+		RoomNo2:          roomNo,
+		Transactional:    false,
+	}
+	buf := new(bytes.Buffer)
+	if err := param.Serialize(buf); err != nil {
+		return fmt.Errorf("failed to ser shard hotel reserve2: %s", err)
+	}
+
+	method := shardhotel.SHARD_DOUBLE_RESERVE_NAME
+	contractAddr := utils.ShardHotelAddress
+	txParam := []interface{}{buf.Bytes()}
+	_, err = sdk.Native.InvokeShardNativeContract(fromShardID, cfg.GasPrice, cfg.GasLimit, user, 0, contractAddr, method, txParam)
+	if err != nil {
+		return fmt.Errorf("invoke Native contract err: %s", err)
+	}
 	return nil
 }
