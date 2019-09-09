@@ -1,0 +1,15 @@
+{
+  "Password": "1",
+  "GasPrice": 0,
+  "GasLimit": 1000000,
+  "ShardPerNode": 1,
+  "RootServer": "http://10.1.4.9:20336",
+  "Rpc": [
+    "10.1.4.11",
+    "10.1.4.10"
+  ],
+  "TxNum": 1000,
+  "TPS": 10,
+  "StartNonce": 0,
+  "SendTx": true
+}

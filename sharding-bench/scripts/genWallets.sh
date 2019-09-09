@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/bash -x
 
-walletCnt=30
-counter=0
+walletCnt=120
+counter=101
 
 while [ $counter -le $walletCnt ]
 do

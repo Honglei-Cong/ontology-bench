@@ -1,7 +1,7 @@
 {
-   "path": "wallets/wallet1.dat",
-   "shard_id": 1,
-   "ip_address": "127.0.0.1",
-   "peer_pub_key": "03aca5f78d06cdf8ad9e999e72a932623d8996c99fbfff3fb7b3a5612c6f0d3b11",
+   "path": "wallets/wallet102.dat",
+   "shard_id": 816,
+   "ip_address": "10.1.4.109",
+   "peer_pub_key": "039753ad9418e187fad1ccdb1e733cda5c2e7cd059dc1fe415baf0a1734ead97db",
    "stake_amount": 10000
 }

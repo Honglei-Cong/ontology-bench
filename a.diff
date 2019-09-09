@@ -1,0 +1,330 @@
+diff --git a/sharding-bench/config.json b/sharding-bench/config.json
+deleted file mode 100644
+index 3ef1fb0..0000000
+--- a/sharding-bench/config.json
++++ /dev/null
+@@ -1,24 +0,0 @@
+-{
+-  "Password": "1",
+-  "ConsensusWalletPath": "wallets",
+-  "GasPrice": 0,
+-  "GasLimit": 1000000,
+-  "ShardPerNode": 1,
+-  "RootServer": "http://40.73.24.36:20336",
+-  "Rpc": {
+-  "10.1.4.11": [
+-    1,
+-    2,
+-    3
+-  ],
+-  "10.1.4.10": [
+-    4,
+-    5,
+-    6
+-  ]
+-},
+-  "TxNum": 10,
+-  "TPS": 10,
+-  "StartNonce": 0,
+-  "SendTx": true
+-}
+diff --git a/sharding-bench/configs/start-root.sh b/sharding-bench/configs/start-root.sh
+index 2e714e0..2138d54 100755
+--- a/sharding-bench/configs/start-root.sh
++++ b/sharding-bench/configs/start-root.sh
+@@ -1,5 +1,5 @@
+ #!/bin/bash
+ 
+-echo '1' | ./ontology --enable-shard-rpc --config solo-config.json --enable-consensus
++echo '1' | ./ontology --enable-shard-rpc --config solo-config.json --enable-consensus --disable-broadcast-net-tx --disable-tx-pool-pre-exec
+ echo $! > pid
+ 
+diff --git a/sharding-bench/configs/start.sh b/sharding-bench/configs/start.sh
+index f6a9060..f7b9611 100755
+--- a/sharding-bench/configs/start.sh
++++ b/sharding-bench/configs/start.sh
+@@ -1,5 +1,5 @@
+ #!/bin/bash
+ 
+-echo '1' | ./ontology --enable-shard-rpc --config solo-config.json
++echo '1' | ./ontology --enable-shard-rpc --config solo-config.json --disable-broadcast-net-tx --disable-tx-pool-pre-exec --reserved-only 2>&1 > ontology.log
+ echo $! > pid
+ 
+diff --git a/sharding-bench/params/ShardActivate.json b/sharding-bench/params/ShardActivate.json
+index 7886840..e6ef196 100644
+--- a/sharding-bench/params/ShardActivate.json
++++ b/sharding-bench/params/ShardActivate.json
+@@ -1,4 +1,4 @@
+ {
+-   "path": "wallets/wallet1.dat",
+-   "shard_id": 1
++   "path": "wallets/wallet92.dat",
++   "shard_id": 184
+ }
+diff --git a/sharding-bench/params/ShardConfig.json b/sharding-bench/params/ShardConfig.json
+index 5069223..83edc22 100644
+--- a/sharding-bench/params/ShardConfig.json
++++ b/sharding-bench/params/ShardConfig.json
+@@ -1,6 +1,6 @@
+ {
+-   "path": "wallets/wallet1.dat",
+-   "shard_id": 1,
++   "path": "wallets/wallet92.dat",
++   "shard_id": 184,
+    "network_size": 1,
+    "gas_price": 0,
+    "gas_limit": 500000,
+diff --git a/sharding-bench/params/ShardCreate.json b/sharding-bench/params/ShardCreate.json
+index 09b9f61..223020e 100644
+--- a/sharding-bench/params/ShardCreate.json
++++ b/sharding-bench/params/ShardCreate.json
+@@ -1,4 +1,4 @@
+ {
+-   "path": "wallets/wallet1.dat",
++   "path": "wallets/wallet92.dat",
+    "parent_shard_id": 0
+ }
+diff --git a/sharding-bench/params/ShardPeerApply.json b/sharding-bench/params/ShardPeerApply.json
+index 1418e96..b787b2e 100644
+--- a/sharding-bench/params/ShardPeerApply.json
++++ b/sharding-bench/params/ShardPeerApply.json
+@@ -1,5 +1,5 @@
+ {
+-   "path": "wallets/wallet1.dat",
+-   "shard_id": 1,
+-   "peer_pub_key": "03aca5f78d06cdf8ad9e999e72a932623d8996c99fbfff3fb7b3a5612c6f0d3b11"
++   "path": "wallets/wallet92.dat",
++   "shard_id": 184,
++   "peer_pub_key": "02458e05a5fd450ad87e756309f3c9a1ef400c32bb530dcc484f2c7e817c1d7c78"
+ }
+diff --git a/sharding-bench/params/ShardPeerApprove.json b/sharding-bench/params/ShardPeerApprove.json
+index 1418e96..b787b2e 100644
+--- a/sharding-bench/params/ShardPeerApprove.json
++++ b/sharding-bench/params/ShardPeerApprove.json
+@@ -1,5 +1,5 @@
+ {
+-   "path": "wallets/wallet1.dat",
+-   "shard_id": 1,
+-   "peer_pub_key": "03aca5f78d06cdf8ad9e999e72a932623d8996c99fbfff3fb7b3a5612c6f0d3b11"
++   "path": "wallets/wallet92.dat",
++   "shard_id": 184,
++   "peer_pub_key": "02458e05a5fd450ad87e756309f3c9a1ef400c32bb530dcc484f2c7e817c1d7c78"
+ }
+diff --git a/sharding-bench/params/ShardPeerJoin.json b/sharding-bench/params/ShardPeerJoin.json
+index a8df936..83b600c 100644
+--- a/sharding-bench/params/ShardPeerJoin.json
++++ b/sharding-bench/params/ShardPeerJoin.json
+@@ -1,7 +1,7 @@
+ {
+-   "path": "wallets/wallet1.dat",
+-   "shard_id": 1,
+-   "ip_address": "127.0.0.1",
+-   "peer_pub_key": "03aca5f78d06cdf8ad9e999e72a932623d8996c99fbfff3fb7b3a5612c6f0d3b11",
++   "path": "wallets/wallet92.dat",
++   "shard_id": 184,
++   "ip_address": "10.1.4.103",
++   "peer_pub_key": "02458e05a5fd450ad87e756309f3c9a1ef400c32bb530dcc484f2c7e817c1d7c78",
+    "stake_amount": 10000
+ }
+diff --git a/sharding-bench/scripts/genWallets.sh b/sharding-bench/scripts/genWallets.sh
+index 7e5d00b..8318cd8 100755
+--- a/sharding-bench/scripts/genWallets.sh
++++ b/sharding-bench/scripts/genWallets.sh
+@@ -1,7 +1,7 @@
+-#!/bin/bash
++#!/bin/bash -x
+ 
+-walletCnt=30
+-counter=0
++walletCnt=120
++counter=101
+ 
+ while [ $counter -le $walletCnt ]
+ do
+diff --git a/sharding-bench/scripts/getHeights.sh b/sharding-bench/scripts/getHeights.sh
+index af8dc4f..20ad1c4 100755
+--- a/sharding-bench/scripts/getHeights.sh
++++ b/sharding-bench/scripts/getHeights.sh
+@@ -1,16 +1,16 @@
+-#!/usr/bin/env bash
++#!/bin/bash
+ 
+-rootServer="10.1.4.27"
++rootServer="10.1.4.9"
+ echo $rootServer
+ ssh  $rootServer 'cd /mnt/shard && ./ontology info curblockheight'
+ 
+-#servers=("10.1.4.4" "10.1.4.5")
+-servers=("10.1.4.4" "10.1.4.5" "10.1.4.6" "10.1.4.7" "10.1.4.8" "10.1.4.9" "10.1.4.10" "10.1.4.11" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19" "10.1.4.20" "10.1.4.21" "10.1.4.22" "10.1.4.23" "10.1.4.24" "10.1.4.26")
+-#servers=("10.1.4.4" "10.1.4.5" "10.1.4.6" "10.1.4.7" "10.1.4.8" "10.1.4.9" "10.1.4.10" "10.1.4.11" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19" "10.1.4.20" "10.1.4.21" "10.1.4.22" "10.1.4.23" "10.1.4.24" "10.1.4.26" "139.219.136.87" "139.219.139.170" "139.219.137.124" "42.159.155.17" "139.219.140.128" "42.159.155.142" "40.73.99.78" "40.73.102.14")
++#servers=("10.1.4.11" "10.1.4.10")
++#servers=("10.1.4.11" "10.1.4.10" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19")
++servers=("10.1.4.11" "10.1.4.10" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19" "10.1.4.21" "10.1.4.20" "10.1.4.22" "10.1.4.23" "10.1.4.25" "10.1.4.26" "10.1.4.27" "10.1.4.24" "10.1.4.28" "10.1.4.29" "10.1.4.30" "10.1.4.31" "10.1.4.33" "10.1.4.32" "10.1.4.34" "10.1.4.35" "10.1.4.36" "10.1.4.37" "10.1.4.38" "10.1.4.40" "10.1.4.39" "10.1.4.41" "10.1.4.42" "10.1.4.43" "10.1.4.44" "10.1.4.45" "10.1.4.48" "10.1.4.49" "10.1.4.51" "10.1.4.50" "10.1.4.53" "10.1.4.52" "10.1.4.54" "10.1.4.55" "10.1.4.56" "10.1.4.57" "10.1.4.58" "10.1.4.59" "10.1.4.60" "10.1.4.61" "10.1.4.62" "10.1.4.63" "10.1.4.64" "10.1.4.65" "10.1.4.66" "10.1.4.67" "10.1.4.68" "10.1.4.69" "10.1.4.70" "10.1.4.71" "10.1.4.72" "10.1.4.74" "10.1.4.73" "10.1.4.77" "10.1.4.75" "10.1.4.76" "10.1.4.79" "10.1.4.78" "10.1.4.80" "10.1.4.81" "10.1.4.82" "10.1.4.83" "10.1.4.84" "10.1.4.85" "10.1.4.87" "10.1.4.86" "10.1.4.88" "10.1.4.89" "10.1.4.90" "10.1.4.91" "10.1.4.92" "10.1.4.93" "10.1.4.94" "10.1.4.95" "10.1.4.96" "10.1.4.97" "10.1.4.98" "10.1.4.99" "10.1.4.101" "10.1.4.100" "10.1.4.102" "10.1.4.103")
+ 
+ for s in "${servers[@]}"
+ do
+-echo $s
+-ssh  $s 'cd /mnt/shard && ./ontology info curblockheight'
++	echo $s
++	ssh  $s 'cd /mnt/shard && ./ontology info curblockheight'
+ done
+ 
+diff --git a/sharding-bench/scripts/init.sh b/sharding-bench/scripts/init.sh
+index 5131678..ec40e63 100755
+--- a/sharding-bench/scripts/init.sh
++++ b/sharding-bench/scripts/init.sh
+@@ -4,7 +4,7 @@ pk=`../bin/ontology account list -v -w ../wallets/wallet0.dat | grep 'Public key
+ echo $pk
+ sed -i -e "s/\"bookkeepers\":.*/\"bookkeepers\": [\"$pk\"]/g" ../configs/solo-config.json
+ 
+-rootServer="10.1.4.27"
++rootServer="10.1.4.9"
+ ssh  $rootServer 'sudo pkill -9 ontology'
+ ssh  $rootServer 'sudo rm -rf /mnt/shard && sudo mkdir /mnt/shard && sudo chown ubuntu:ubuntu /mnt/shard && ls -l /mnt/'
+ scp ../bin/ontology ../configs/solo-config.json ../configs/start-root.sh ../configs/clean.sh ../wallets/wallet0.dat ubuntu@$rootServer:/mnt/shard
+@@ -14,13 +14,15 @@ scp -r ../Chain ubuntu@$rootServer:/mnt/shard/
+ 
+ counter=1
+ 
+-servers=("10.1.4.4" "10.1.4.5" "10.1.4.6" "10.1.4.7" "10.1.4.8" "10.1.4.9" "10.1.4.10" "10.1.4.11" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19" "10.1.4.20" "10.1.4.21" "10.1.4.22" "10.1.4.23" "10.1.4.24" "10.1.4.26")
++# servers=("10.1.4.11" "10.1.4.10")
++# servers=("10.1.4.11" "10.1.4.10" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19")
++servers=("10.1.4.11" "10.1.4.10" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19" "10.1.4.21" "10.1.4.20" "10.1.4.22" "10.1.4.23" "10.1.4.25" "10.1.4.26" "10.1.4.27" "10.1.4.24" "10.1.4.28" "10.1.4.29" "10.1.4.30" "10.1.4.31" "10.1.4.33" "10.1.4.32" "10.1.4.34" "10.1.4.35" "10.1.4.36" "10.1.4.37" "10.1.4.38" "10.1.4.40" "10.1.4.39" "10.1.4.41" "10.1.4.42" "10.1.4.43" "10.1.4.44" "10.1.4.45" "10.1.4.48" "10.1.4.49" "10.1.4.51" "10.1.4.50" "10.1.4.53" "10.1.4.52" "10.1.4.54" "10.1.4.55" "10.1.4.56" "10.1.4.57" "10.1.4.58" "10.1.4.59" "10.1.4.60" "10.1.4.61" "10.1.4.62" "10.1.4.63" "10.1.4.64" "10.1.4.65" "10.1.4.66" "10.1.4.67" "10.1.4.68" "10.1.4.69" "10.1.4.70" "10.1.4.71" "10.1.4.72" "10.1.4.74" "10.1.4.73" "10.1.4.77" "10.1.4.75" "10.1.4.76" "10.1.4.79" "10.1.4.78" "10.1.4.80" "10.1.4.81" "10.1.4.82" "10.1.4.83" "10.1.4.84" "10.1.4.85" "10.1.4.87" "10.1.4.86" "10.1.4.88" "10.1.4.89" "10.1.4.90" "10.1.4.91" "10.1.4.92" "10.1.4.93" "10.1.4.94" "10.1.4.95" "10.1.4.96" "10.1.4.97" "10.1.4.98" "10.1.4.99" "10.1.4.101" "10.1.4.100" "10.1.4.102" "10.1.4.103")
+ 
+ for s in "${servers[@]}"
+ do
+ ssh  $s 'sudo pkill -9 ontology'
+ ssh  $s 'sudo rm -rf /mnt/shard && sudo mkdir /mnt/shard && sudo chown ubuntu:ubuntu /mnt/shard && ls -l /mnt/'
+-scp ../bin/ontology ../configs/solo-config.json ../configs/start.sh ../configs/clean.sh ../wallets/wallet$counter.dat ubuntu@$s:/mnt/shard
++scp ../bin/ontology ../configs/solo-config.json ../configs/start.sh ../configs/clean.sh ../configs/peers.rsv ../wallets/wallet$counter.dat ubuntu@$s:/mnt/shard
+ scp ../wallets/wallet$counter.dat ubuntu@$s:/mnt/shard/wallet.dat
+ scp -r ../Chain ubuntu@$s:/mnt/shard/
+ ((counter++))
+diff --git a/sharding-bench/scripts/shardCreate.sh b/sharding-bench/scripts/shardCreate.sh
+index 526c59a..664229e 100755
+--- a/sharding-bench/scripts/shardCreate.sh
++++ b/sharding-bench/scripts/shardCreate.sh
+@@ -4,7 +4,11 @@ WALLET="./wallets/wallet0.dat"
+ PASSWD="1"
+ ONTOLOGY="./bin/ontology"
+ ROOTSERVER="10.1.4.9"
+-WALLETCNT=95
++shardPerNode=2
++# servers=("10.1.4.10" "10.1.4.11")
++# servers=("10.1.4.11" "10.1.4.10" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19")
++servers=("10.1.4.11" "10.1.4.10" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19" "10.1.4.21" "10.1.4.20" "10.1.4.22" "10.1.4.23" "10.1.4.25" "10.1.4.26" "10.1.4.27" "10.1.4.24" "10.1.4.28" "10.1.4.29" "10.1.4.30" "10.1.4.31" "10.1.4.33" "10.1.4.32" "10.1.4.34" "10.1.4.35" "10.1.4.36" "10.1.4.37" "10.1.4.38" "10.1.4.40" "10.1.4.39" "10.1.4.41" "10.1.4.42" "10.1.4.43" "10.1.4.44" "10.1.4.45" "10.1.4.48" "10.1.4.49" "10.1.4.51" "10.1.4.50" "10.1.4.53" "10.1.4.52" "10.1.4.54" "10.1.4.55" "10.1.4.56" "10.1.4.57" "10.1.4.58" "10.1.4.59" "10.1.4.60" "10.1.4.61" "10.1.4.62" "10.1.4.63" "10.1.4.64" "10.1.4.65" "10.1.4.66" "10.1.4.67" "10.1.4.68" "10.1.4.69" "10.1.4.70" "10.1.4.71" "10.1.4.72" "10.1.4.74" "10.1.4.73" "10.1.4.77" "10.1.4.75" "10.1.4.76" "10.1.4.79" "10.1.4.78" "10.1.4.80" "10.1.4.81" "10.1.4.82" "10.1.4.83" "10.1.4.84" "10.1.4.85" "10.1.4.87" "10.1.4.86" "10.1.4.88" "10.1.4.89" "10.1.4.90" "10.1.4.91" "10.1.4.92" "10.1.4.93" "10.1.4.94" "10.1.4.95" "10.1.4.96" "10.1.4.97" "10.1.4.98" "10.1.4.99" "10.1.4.101" "10.1.4.100" "10.1.4.102" "10.1.4.103")
++WALLETCNT=${#servers[@]}
+ 
+ # withdraw ong
+ ssh $ROOTSERVER "cd /mnt/shard && echo $PASSWD | ./ontology asset transfer  --from 1 --to 1 --amount 1"
+@@ -33,9 +37,6 @@ ssh $ROOTSERVER "cd /mnt/shard && echo $PASSWD | ./ontology asset balance $ADDR"
+ ((counter++))
+ done
+ 
+-shardPerNode=1
+-servers=("10.1.4.10" "10.1.4.11")
+-# servers=("10.1.4.11" "10.1.4.10" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19" "10.1.4.21" "10.1.4.20" "10.1.4.22" "10.1.4.23" "10.1.4.25" "10.1.4.26" "10.1.4.27" "10.1.4.24" "10.1.4.28" "10.1.4.29" "10.1.4.30" "10.1.4.31" "10.1.4.33" "10.1.4.32" "10.1.4.34" "10.1.4.35" "10.1.4.36" "10.1.4.37" "10.1.4.38" "10.1.4.40" "10.1.4.39" "10.1.4.41" "10.1.4.42" "10.1.4.43" "10.1.4.44" "10.1.4.45" "10.1.4.48" "10.1.4.49" "10.1.4.51" "10.1.4.50" "10.1.4.53" "10.1.4.52" "10.1.4.54" "10.1.4.55" "10.1.4.56" "10.1.4.57" "10.1.4.58" "10.1.4.59" "10.1.4.60" "10.1.4.61" "10.1.4.62" "10.1.4.63" "10.1.4.64" "10.1.4.65" "10.1.4.66" "10.1.4.67" "10.1.4.68" "10.1.4.69" "10.1.4.70" "10.1.4.71" "10.1.4.72" "10.1.4.74" "10.1.4.73" "10.1.4.77" "10.1.4.75" "10.1.4.76" "10.1.4.79" "10.1.4.78" "10.1.4.80" "10.1.4.81" "10.1.4.82" "10.1.4.83" "10.1.4.84" "10.1.4.85" "10.1.4.87" "10.1.4.86" "10.1.4.88" "10.1.4.89" "10.1.4.90" "10.1.4.91" "10.1.4.92" "10.1.4.93" "10.1.4.94" "10.1.4.95" "10.1.4.96" "10.1.4.97" "10.1.4.98" "10.1.4.99" "10.1.4.101" "10.1.4.100" "10.1.4.102" "10.1.4.103")
+ 
+ # create chains
+ id=1
+@@ -58,6 +59,8 @@ do
+ 	((counter++))
+ done
+ 
++sleep 10
++
+ # config chains
+ id=1
+ counter=1
+@@ -72,7 +75,7 @@ do
+         echo "config shard " $id
+ 		head -8 params/ShardConfig.json
+ 		./bin/shardmgmt config config.json params/ShardConfig.json
+-        sleep 10
++        sleep 1
+ 		((i++))
+ 		((id++))
+ 	done
+@@ -96,7 +99,7 @@ do
+         echo "peer apply for shard " $id
+ 		head -5 params/ShardPeerApply.json
+ 		./bin/shardmgmt peerapply config.json params/ShardPeerApply.json
+-        sleep 10
++        sleep 1
+ 		((i++))
+ 		((id++))
+ 	done
+@@ -120,7 +123,7 @@ do
+         echo "peer approve for shard " $id
+ 		head -5 params/ShardPeerApprove.json
+ 		./bin/shardmgmt peerapprove config.json params/ShardPeerApprove.json
+-        sleep 10
++        sleep 1
+ 		((i++))
+ 		((id++))
+ 	done
+@@ -145,7 +148,7 @@ do
+         echo "peer join shard " $id
+ 		head -5 params/ShardPeerJoin.json
+ 		./bin/shardmgmt peerjoin config.json params/ShardPeerJoin.json
+-        sleep 10
++        sleep 1
+ 		((i++))
+ 		((id++))
+ 	done
+@@ -167,7 +170,7 @@ do
+         echo "peer activate " $id
+ 		head -3 params/ShardActivate.json
+ 		./bin/shardmgmt activate config.json params/ShardActivate.json
+-        sleep 10
++        sleep 1
+ 		((i++))
+ 		((id++))
+ 	done
+diff --git a/sharding-bench/scripts/shardHeights.sh b/sharding-bench/scripts/shardHeights.sh
+old mode 100644
+new mode 100755
+index f9a01ac..56f3116
+--- a/sharding-bench/scripts/shardHeights.sh
++++ b/sharding-bench/scripts/shardHeights.sh
+@@ -1,12 +1,13 @@
+ #!/bin/bash
+ 
+-rootServer="10.1.4.27"
++rootServer="10.1.4.9"
+ echo $rootServer
+ ssh  $rootServer 'cd /mnt/shard && ./ontology info curblockheight'
+ 
+ shardPerNode=2
+-servers=("10.1.4.4" "10.1.4.5")
+-#servers=("10.1.4.4" "10.1.4.5" "10.1.4.6" "10.1.4.7" "10.1.4.8" "10.1.4.9" "10.1.4.10" "10.1.4.11" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19" "10.1.4.20" "10.1.4.21" "10.1.4.22" "10.1.4.23" "10.1.4.24" "10.1.4.26")
++#servers=("10.1.4.11" "10.1.4.10")
++#servers=("10.1.4.11" "10.1.4.10" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19")
++servers=("10.1.4.11" "10.1.4.10" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19" "10.1.4.21" "10.1.4.20" "10.1.4.22" "10.1.4.23" "10.1.4.25" "10.1.4.26" "10.1.4.27" "10.1.4.24" "10.1.4.28" "10.1.4.29" "10.1.4.30" "10.1.4.31" "10.1.4.33" "10.1.4.32" "10.1.4.34" "10.1.4.35" "10.1.4.36" "10.1.4.37" "10.1.4.38" "10.1.4.40" "10.1.4.39" "10.1.4.41" "10.1.4.42" "10.1.4.43" "10.1.4.44" "10.1.4.45" "10.1.4.48" "10.1.4.49" "10.1.4.51" "10.1.4.50" "10.1.4.53" "10.1.4.52" "10.1.4.54" "10.1.4.55" "10.1.4.56" "10.1.4.57" "10.1.4.58" "10.1.4.59" "10.1.4.60" "10.1.4.61" "10.1.4.62" "10.1.4.63" "10.1.4.64" "10.1.4.65" "10.1.4.66" "10.1.4.67" "10.1.4.68" "10.1.4.69" "10.1.4.70" "10.1.4.71" "10.1.4.72" "10.1.4.74" "10.1.4.73" "10.1.4.77" "10.1.4.75" "10.1.4.76" "10.1.4.79" "10.1.4.78" "10.1.4.80" "10.1.4.81" "10.1.4.82" "10.1.4.83" "10.1.4.84" "10.1.4.85" "10.1.4.87" "10.1.4.86" "10.1.4.88" "10.1.4.89" "10.1.4.90" "10.1.4.91" "10.1.4.92" "10.1.4.93" "10.1.4.94" "10.1.4.95" "10.1.4.96" "10.1.4.97" "10.1.4.98" "10.1.4.99" "10.1.4.101" "10.1.4.100" "10.1.4.102" "10.1.4.103")
+ 
+ id=1
+ for s in "${servers[@]}"
+diff --git a/sharding-bench/scripts/shardInit.sh b/sharding-bench/scripts/shardInit.sh
+old mode 100644
+new mode 100755
+diff --git a/sharding-bench/scripts/startChains.sh b/sharding-bench/scripts/startChains.sh
+index 7e038ac..6cae322 100755
+--- a/sharding-bench/scripts/startChains.sh
++++ b/sharding-bench/scripts/startChains.sh
+@@ -1,12 +1,13 @@
+ #!/bin/bash -x
+ 
+-rootServer="10.1.4.27"
++rootServer="10.1.4.9"
+ ssh  $rootServer 'cd /mnt/shard && nohup ./start-root.sh' 2>&1 > /dev/null &
+ 
+ sleep 20
+ 
+-servers=("10.1.4.4" "10.1.4.5")
+-#servers=("10.1.4.4" "10.1.4.5" "10.1.4.6" "10.1.4.7" "10.1.4.8" "10.1.4.9" "10.1.4.10" "10.1.4.11" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19" "10.1.4.20" "10.1.4.21" "10.1.4.22" "10.1.4.23" "10.1.4.24" "10.1.4.26")
++#servers=("10.1.4.11" "10.1.4.10")
++#servers=("10.1.4.11" "10.1.4.10" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19")
++servers=("10.1.4.11" "10.1.4.10" "10.1.4.12" "10.1.4.13" "10.1.4.14" "10.1.4.15" "10.1.4.16" "10.1.4.17" "10.1.4.18" "10.1.4.19" "10.1.4.21" "10.1.4.20" "10.1.4.22" "10.1.4.23" "10.1.4.25" "10.1.4.26" "10.1.4.27" "10.1.4.24" "10.1.4.28" "10.1.4.29" "10.1.4.30" "10.1.4.31" "10.1.4.33" "10.1.4.32" "10.1.4.34" "10.1.4.35" "10.1.4.36" "10.1.4.37" "10.1.4.38" "10.1.4.40" "10.1.4.39" "10.1.4.41" "10.1.4.42" "10.1.4.43" "10.1.4.44" "10.1.4.45" "10.1.4.48" "10.1.4.49" "10.1.4.51" "10.1.4.50" "10.1.4.53" "10.1.4.52" "10.1.4.54" "10.1.4.55" "10.1.4.56" "10.1.4.57" "10.1.4.58" "10.1.4.59" "10.1.4.60" "10.1.4.61" "10.1.4.62" "10.1.4.63" "10.1.4.64" "10.1.4.65" "10.1.4.66" "10.1.4.67" "10.1.4.68" "10.1.4.69" "10.1.4.70" "10.1.4.71" "10.1.4.72" "10.1.4.74" "10.1.4.73" "10.1.4.77" "10.1.4.75" "10.1.4.76" "10.1.4.79" "10.1.4.78" "10.1.4.80" "10.1.4.81" "10.1.4.82" "10.1.4.83" "10.1.4.84" "10.1.4.85" "10.1.4.87" "10.1.4.86" "10.1.4.88" "10.1.4.89" "10.1.4.90" "10.1.4.91" "10.1.4.92" "10.1.4.93" "10.1.4.94" "10.1.4.95" "10.1.4.96" "10.1.4.97" "10.1.4.98" "10.1.4.99" "10.1.4.101" "10.1.4.100" "10.1.4.102" "10.1.4.103")
+ 
+ for s in "${servers[@]}"
+ do

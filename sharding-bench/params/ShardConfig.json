@@ -1,6 +1,6 @@
 {
-   "path": "wallets/wallet1.dat",
-   "shard_id": 1,
+   "path": "wallets/wallet102.dat",
+   "shard_id": 816,
    "network_size": 1,
    "gas_price": 0,
    "gas_limit": 500000,
